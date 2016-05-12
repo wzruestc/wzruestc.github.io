@@ -1,0 +1,24 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="author" content="ZiriWong"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>读书笔记——Growth:全栈工程师增长指南</title><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/normalize/3.0.3/normalize.min.css"><link rel="stylesheet" type="text/css" href="/css/carbon.css"><script defer="defer" src="//cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js"></script><script defer="defer" src="//cdn.jsdelivr.net/jquery.pjax/1.9.5/jquery.pjax.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen"><script defer="defer" type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>var performFancybox = true;</script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/katex/0.5.0/katex.min.css"><script async="async" type="text/javascript" src="//cdn.jsdelivr.net/katex/0.5.0/katex.min.js"></script><script async="async" type="text/javascript" src="//cdn.jsdelivr.net/katex/0.5.0/contrib/auto-render.min.js"></script><script>var doRenderMath = 'katex';</script><script defer="defer" src="/js/carbon.js"></script></head><body><div id="container"><div id="banner"><h1 id="site-title"><a href="/">ZiriWong</a></h1><p id="site-subtitle">万物生长，本一，不二</p></div><div id="content"><div class="meta"><h2 class="article-title"><a href="/2016/05/12/2016:05:12读书笔记——growth全栈工程师增长">读书笔记——Growth:全栈工程师增长指南</a></h2><div class="article-date"><a href="javascript:void(0);" class="extra-switch">2016-05-12</a></div></div><div class="extra"><span class="Tags">Tags: <a href="/tags/［读书笔记］/">［读书笔记］</a>.</span></div><div class="extra"><span class="Categorias">Categorias: <a href="/categories/读书笔记/">读书笔记</a>.</span></div><div class="article-content"><div class="gallery"></div><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>刷 v2ex时偶然看到的帖子,thoughtworks西安的一位牛人写的一本全栈技术指南，链接附上<a href="https://github.com/phodal/growth-ebook" target="_blank" rel="external">https://github.com/phodal/growth-ebook</a></p>
+<p>这本书不涉及很多具体代码的写法和奇淫巧技，它只是一本教你 how to learn的指南，让你对于全栈有一个系统的认识并知道怎么进一步深入学习。</p>
+<p>之前我对测试这块，并没有太多系统的认识，这篇读书笔记，主要也偏重测试方面的基础知识。</p>
+<h2 id="测试金字塔"><a href="#测试金字塔" class="headerlink" title="测试金字塔"></a>测试金字塔</h2><p>底层单元测试应多于依赖 GUI的高层端到端测试，结构如下图：</p>
+<p><img src="http://ww1.sinaimg.cn/large/e904d9fcjw1f3slodl5anj20f00adgmo.jpg" alt=""></p>
+<p>大量单元测试保证基础函数正常正确工作，服务测试测试系统内部的功能和第三方服务。</p>
+<p>单元测试是针对程序模块（软件设计的最小单位）来进行正确性检验的测试工作。它是应用的最小可测试部件。</p>
+<p>单元测试达到一定的覆盖率，代码健壮性就高。因为我们都需要保证我们的代码都是可测的，也意味着我们代码间的耦合度会降低。我们需要去考虑代码的长度，越长的代码在测试的时间会变得越困难。这也就是为什么 TDD 会促使我们写出短的代码。如果我们的代码都是有测试的，单元测试可以帮助我们在未来重构我们的代码。</p>
+<p>服务测试：对于第三方提供的 API 服务或者其他类似的服务，在这一个层级的测试，我们都不会真实地去测试他们能不能工作——这些依赖性的服务只会在功能测试上进行测试。在这里的测试，我们只会保证我们的功能代码是可以正常工作的，所以我们会使用一些虚假的 API 测试数据来进行测试。这一类提供 API 的 Mock Server 可以模拟被测系统外部依赖模块行为的通用服务。我们只要保证我们的功能代码是正常工作的，那么依赖他的服务也会是正常工作的。</p>
+<p>UI测试：UI测试相对处于最上层，应该尽可能将这个层级的测试往下层级移，可以节省上百个数量级的时间。</p>
+<h2 id="四阶段测试"><a href="#四阶段测试" class="headerlink" title="四阶段测试"></a>四阶段测试</h2><ol>
+<li>Setup。在这个阶段主要是做一些准备工作，如数据准备和初始化等等，比如用 selenium 启动了一个 Firefox 浏览器，然后把窗口最大化了。 </li>
+<li>Execute。在执行阶段就是做好验证结果前的工作，如我们在测试注册的时候，那么这里就是填写数据，并点击提交按钮。在上面的代码里，我们只是打开了首页。</li>
+<li>Verify。在验证阶段，我们所要做的就是验证返回的结果是否和我们预期的一致。在这里我们还是使用和单元测试一样的 assert 来做断言，通过判断这个页面的标题是“Welcome to my blog”，来说明我们现在就是在首页里。</li>
+<li>Tear Down。就是一些收尾工作啦 ，比如关闭浏览器、清除测试数据等等。</li>
+</ol>
+<h2 id="测试替身"><a href="#测试替身" class="headerlink" title="测试替身"></a>测试替身</h2><blockquote>
+<p>有时候对被测系统(SUT)进行测试是很困难的，因为它依赖于其他无法在测试环境中使用的组件。这有可能是因为这些组件不可用，它们不会返回测试所需要的结果，或者执行它们会有不良副作用。在其他情况下，我们的测试策略要求对被测系统的内部行为有更多控制或更多可见性。 如果在编写测试时无法使用（或选择不使用）实际的依赖组件(DOC)，可以用测试替身来代替。测试替身不需要和真正的依赖组件有完全一样的的行为方式；他只需要提供和真正的组件同样的 API 即可，这样被测系统就会以为它是真正的组件。</p>
+</blockquote>
+<p> 当我们遇到一些难以测试的方法、行为时，就需要一些特殊方式进行测试。如 Mock和Stub</p>
+<p> Stub 是一种状态确认，它用简单的行为来替换复杂的行为</p>
+<p> Mock 是一种行为确认，它用于模拟其行为</p>
+<p> Stub 从某种程度上来说，会返回我们一个特定的结果，用代码替换来方法；Mock只是确保这个方法被调用</p>
+</div><nav class="pagination"><a id="right-navigator" href="/2016/04/23/2016:04:23Axure7.0以上版本使用FontAwesome/">Axure使用 Font Awesome图标</a></nav></div><nav id="footer"><ul id="footer-links"><li><a href="/about" class="zn">关于</a></li><li><a href="/archives" class="zn">所有文章</a></li><li><a href="/atom.xml" class="zn">RSS</a></li><li><a href="https://github.com/icylogic/carbon" class="zn out-site">Theme.Carbon</a></li><li><a href="https://github.com/hexojs/hexo" class="zn out-site">Hexo</a></li></ul></nav></div></body></html>
